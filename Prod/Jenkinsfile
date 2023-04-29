@@ -1,0 +1,20 @@
+node {
+stage ('DEV Approve')
+      {
+            echo "Taking approval from DEV"
+               
+            timeout(time: 7, unit: 'DAYS') {
+            input message: 'Do you want to deploy?', submitter: 'admin'
+            }
+     }
+stage ('DEV Deploy')
+         {
+             build job: 'Deploy_To_Container_Prod'
+          }
+
+  stage ('Slack notification') {
+     
+build job: 'Slack_Notification'
+    }
+  
+}                 
