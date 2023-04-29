@@ -6,18 +6,11 @@
   sudo apt-get install tomcat9-docs tomcat9-examples tomcat9-admin -y
   sudo cp -r /usr/share/tomcat9-admin/* /var/lib/tomcat9/webapps/ -v
 
-  sudo bash -c 'cat > /var/lib/tomcat9/conf/tomcat-users.xml <<EOF
-<?xml version="1.0" encoding="UTF-9"?>
-<tomcat-users xmlns="http://tomcat.apache.org/xml"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd"
-              version="1.0">
-  <role rolename="manager-script"/>
-  <user username="tomcat" password="password" roles="manager-script"/>
-</tomcat-users>
-EOF'
+  # add new lines
+  sudo sed -i '/<\/tomcat-users>/i \  <role rolename="manager"/>\n  <role rolename="manager-gui"/>\n  <role rolename="manager-script"/>\n  <role rolename="manager-status"/>\n  <user username="tomcat" password="password" roles="manager,manager-gui,manager-script,manager-status"/>' /etc/tomcat9/tomcat-users.xml
 
 # Restart Tomcat service
 sudo systemctl restart tomcat9
-#delete this line and input your datadog api key inside
+DD_API_KEY=9f73b5f11c9290d6cb7b2dc3840c2fec DD_SITE="datadoghq.com" bash -c "$(curl -L https://s3.amazonaws.com/dd-agent/scripts/install_script_agent7.sh)"
+
 done

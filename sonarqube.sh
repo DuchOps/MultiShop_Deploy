@@ -75,6 +75,6 @@ echo "sonar   -   nproc    4096" | sudo tee -a /etc/security/limits.conf
 sudo sysctl -p
 sudo systemctl start sonar
 sudo systemctl enable sonar
-#delete this line and input your datadog api key inside
+DD_API_KEY=9f73b5f11c9290d6cb7b2dc3840c2fec DD_SITE="datadoghq.com" bash -c "$(curl -L https://s3.amazonaws.com/dd-agent/scripts/install_script_agent7.sh)"
 
 done
